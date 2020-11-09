@@ -1,6 +1,7 @@
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
     board = []
+    #kiscica
     return board
 
 
