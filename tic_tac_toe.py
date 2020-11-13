@@ -1,7 +1,7 @@
 import os
 import random
+import time
 
-player = ("x", "o")
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
     board = [['.','.','.'],['.','.','.'],['.','.','.']]
@@ -10,44 +10,23 @@ def init_board():
 
 def get_move(board, player):
     """Returns the coordinates of a valid move for player on board."""
-    """Returns the coordinates of a valid move for player on board."""
     row, col = 0, 0
     boardcoord = []
-    boardrange = ("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3")
-    boardcoordnum = []
-    coordcounter = 0
-    for boardrow in board:
-        for coord in boardrow:
-            coordcounter +=1
-            if coord != ".":
-                boardcoordnum.append(coordcounter)
-    if 1 in boardcoordnum:
-        boardcoord.append("A1")
-    if 2 in boardcoordnum:
-        boardcoord.append("A2")
-    if 3 in boardcoordnum:
-        boardcoord.append("A3")
-    if 4 in boardcoordnum:
-        boardcoord.append("B1")
-    if 5 in boardcoordnum:
-        boardcoord.append("B2")
-    if 6 in boardcoordnum:
-        boardcoord.append("B3")
-    if 7 in boardcoordnum:
-        boardcoord.append("C1")    
-    if 8 in boardcoordnum:
-        boardcoord.append("C2")
-    if 9 in boardcoordnum:
-        boardcoord.append("C3")
+    boardrange = (("A1", "A2", "A3"), ("B1", "B2", "B3"), ("C1", "C2", "C3"))
+    inboardrange = ("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3")
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if board[i][j] != ".":
+                boardcoord.append(boardrange[i][j])
     
-    playercoord = (input("Add coordinate!")).upper()
+    playercoord = (input("What is your next move?\n")).upper()
     while True:
         if not len(str(playercoord)) == 2:
-            playercoord = (input("I'ts not valid coordinate. Add another coordinate!")).upper()
+            playercoord = (input("It's not valid coordinate. Add another coordinate!\n")).upper()
         elif playercoord in boardcoord:
-            playercoord = (input("I'ts taken. Add another coordinate!")).upper()
-        elif not playercoord in boardrange:
-            playercoord = (input("Out of range. Add another coordinate!")).upper()
+            playercoord = (input("It's taken. Add another coordinate!\n")).upper()
+        elif not playercoord in inboardrange:
+            playercoord = (input("Out of range. Add another coordinate!\n")).upper()
         else:
             break        
     if playercoord[0] == "A":
@@ -63,6 +42,7 @@ def get_move(board, player):
     elif playercoord[1] == "3":
         col =2
     return row, col
+
 
 def get_ai_move(board, player):
     """Returns the coordinates of a valid move for player on board."""
@@ -94,42 +74,43 @@ def get_ai_move(board, player):
         col =2
     return row, col
 
+
 def mark(board, player, row, col):
     """Marks the element at row & col on the board for player."""
-    board = init_board()
-    for i, x in enumerate(board):
-        for j, a in enumerate(x):
-            if "." in a:
-                board[i][j] = a.replace(".","player")
+    board[row][col] = player
+
 
 def has_won(board, player):
     """Returns True if player has won the game."""
-    return False
+    playercoord = []
+    boardrange = (("A1", "A2", "A3"), ("B1", "B2", "B3"), ("C1", "C2", "C3"))
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if board[i][j] == player:
+                playercoord.append(boardrange[i][j])
+    if ("A1"in playercoord and "A2"in playercoord and "A3"in playercoord) or ("B1" in playercoord and "B2" in playercoord and "B3"in playercoord) or ("C1" in playercoord and "C2"in playercoord and "C3"in playercoord) or ("A1" in playercoord and "B1" in playercoord and "C1"in playercoord) or ("A2"in playercoord and "B2"in playercoord and "C2"in playercoord) or ("A3"in playercoord and "B3"in playercoord and "C3"in playercoord) or ("A1"in playercoord and "B2"in playercoord and "C3"in playercoord) or ("A3"in playercoord and "B2"in playercoord and "C1"in playercoord):
+        return True
+    else:
+        return False
 
 
 def is_full(board):
     """Returns True if board is full."""
-    board = init_board()
-    how_many_are_empty = 0
-    for i, x in enumerate(board):
-        for j, a in enumerate(x):
-            if "." in a:
-                how_many_are_empty+=1
-    if how_many_are_empty == 0:
-        full = True
-        print("Board is full")
-        return full
-    if full == True:
-        print("Game over.")
-        exit(0)
-        return full
-    
+    how_many_are_not_empty = 0
+    for boardrow in board:
+        for coord in boardrow:
+            if not "." in coord:
+                how_many_are_not_empty+=1
+    if how_many_are_not_empty == 9:
+        return True
+    else:
+        return False
+
 
 def print_board(board):
     """Prints a 3-by-3 board on the screen with borders."""
     rows=["A","B","C"]
     columns =["  ","1  ","2  ","3"]
-    board = init_board()
     i = 0
     n = max(len(x) for l in board for x in l)
     print(*columns)
@@ -141,47 +122,84 @@ def print_board(board):
 
 def print_result(winner):
     """Congratulates winner or proclaims tie (if winner equals zero)."""
-    pass
+    if winner == "X":
+        print("Congratulations! X has won!\n")
+    elif winner == "0":
+        print("Congratulations! 0 has won!\n")
+    else:
+        print("What a turn of events! It's a tie!")
 
-
+# use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
 def tictactoe_game(mode='HUMAN-HUMAN'):
-    board = init_board()
-
-    # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
-    print_board(board)
-    row, col = get_move(board, 1)
-    mark(board, 1, row, col)
-
-    winner = 0
-    print_result(winner)
+    if mode == 'HUMAN-HUMAN':
+        board = init_board()
+        player = "0"
+        while True:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            if player == "0":
+                player = "X"
+            else:
+                player = "0"
+            print_board(board)
+            print(player + "'s turn")
+            row, col = get_move(board, player)
+            mark(board, player, row, col)
+            if has_won(board,player):
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print_result(player)
+                break
+            if is_full(board):
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print_result("")
+                break
+        print_board(board)
+        time.sleep(1.65)
+    else:
+        board = init_board()
+        player = "0"
+        while True:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            if player == "0":
+                player = "X"
+            else:
+                player = "0"
+            print_board(board)
+            if player == "X":
+                print(player + "'s turn")
+                row, col = get_move(board, player)
+                mark(board, player, row, col)
+            else:
+                print("AI's turn.")
+                print("AI is thinking...hard.")
+                time.sleep(1.65)
+                row, col = get_ai_move(board,player)
+                mark(board,player,row,col)
+            if has_won(board,player):
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print_result(player)
+                break
+            if is_full(board):
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print_result("")
+                break
+        print_board(board)
+        time.sleep(1.65)
 
 
 def main_menu():
-    width = os.get_terminal_size().columns
-    clear = lambda: os.system('clear')
-    print("This is the main menu.".center(width))
-    print("Press 1 if you want to play against a stupid AI.".center(width))
-    print("Press 2 if you want to play against another player.".center(width))
-    players_choice=input("")
-    while players_choice != "1" or "2": 
 
-        if players_choice == "1":
-            game_mode = "AI"
-            print("Playing against an AI. Good luck. ;)")
-            return(game_mode)
-        if players_choice == "2":
-            game_mode = "HUMAN-HUMAN"
-            print("Playing against another player. Good luck. ;)")
-            return(game_mode)
+    while True:
+        print("\n","T I C - T A C - T O E\n MAIN MENU:\n 1.PLAYER VS PLAYER\n 2.PLAYER VS AI\n 3.EXIT\n")
+        userchoice = input("Please choose an option!\n")
+        if userchoice == "1":
+            tictactoe_game('HUMAN-HUMAN')
+        elif userchoice == "2":
+            tictactoe_game('AI-HUMAN')
+        elif userchoice =="3":
+            print("Goodbye!")
+            exit()
         else:
-            clear()
-            print("You trying to be sneaky, right? Well, you can't choose anything else.".center(width))
-            print("")
-            print("This is the main menu.".center(width))
-            print("Press 1 if you want to play against a stupid AI.".center(width))
-            print("Press 2 if you want to play against another player.".center(width))
-            players_choice=input("")
-
+            print("I feel like you can't count to 3...\n")
 
 if __name__ == '__main__':
     main_menu()
