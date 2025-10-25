@@ -1,6 +1,8 @@
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
     board = []
+    for _ in range(3):
+        board.append(['.'] * 3)
     return board
 
 
