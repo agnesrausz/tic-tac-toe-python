@@ -8,8 +8,33 @@ def init_board():
 
 def get_move(board, player):
     """Returns the coordinates of a valid move for player on board."""
-    row, col = 0, 0
-    return row, col
+    first_letter_ascii_code = ord('a')
+    row_len = len(board)
+    col_len = len(board[0])
+
+    while True:
+        move = input('Enter your move (example: B2): ').strip().lower()
+
+        if len(move) != 2:
+            print('Invalid coordinate, try again!')
+            continue
+
+        if not move[0].isalpha() or not move[1].isdigit():
+            print('Invalid coordinate, try again!')
+            continue
+
+        row = ord(move[0]) - first_letter_ascii_code
+        col = int(move[1]) - 1
+
+        if not (0 <= row < row_len and 0 <= col < col_len):
+            print('That move is out of bounds, try again!')
+            continue
+
+        if board[row][col] != '.':
+            print('That square is already taken, try again!')
+            continue
+
+        return row, col
 
 
 def get_ai_move(board, player):
@@ -46,9 +71,11 @@ def print_result(winner):
 def tictactoe_game(mode='HUMAN-HUMAN'):
     board = init_board()
 
+    print(board)
     # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
     print_board(board)
     row, col = get_move(board, 1)
+    print(row, col)
     mark(board, 1, row, col)
 
     winner = 0
