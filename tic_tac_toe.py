@@ -45,7 +45,9 @@ def get_ai_move(board, player):
 
 def mark(board, player, row, col):
     """Marks the element at row & col on the board for player."""
-    pass
+    if 0 <= row < len(board) and 0 <= col < len(board[0]) and board[row][col] == '.':
+        board[row][col] = player
+    return board
 
 
 def has_won(board, player):
@@ -71,11 +73,9 @@ def print_result(winner):
 def tictactoe_game(mode='HUMAN-HUMAN'):
     board = init_board()
 
-    print(board)
     # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
     print_board(board)
     row, col = get_move(board, 1)
-    print(row, col)
     mark(board, 1, row, col)
 
     winner = 0
