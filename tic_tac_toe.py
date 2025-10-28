@@ -52,6 +52,27 @@ def mark(board, player, row, col):
 
 def has_won(board, player):
     """Returns True if player has won the game."""
+    win_cases = [
+        # Horizontal
+        [(0, 0), (0, 1), (0, 2)],
+        [(1, 0), (1, 1), (1, 2)],
+        [(2, 0), (2, 1), (2, 2)],
+        # Vertical
+        [(0, 0), (1, 0), (2, 0)],
+        [(0, 1), (1, 1), (2, 1)],
+        [(0, 2), (1, 2), (2, 2)],
+        # Diagonal
+        [(0, 0), (1, 1), (2, 2)],
+        [(0, 2), (1, 1), (2, 0)],
+    ]
+    for case in win_cases:
+        all_cells_match = True
+        for row, col in case:
+            if board[row][col] != player:
+                all_cells_match = False
+                break
+        if all_cells_match:
+            return True
     return False
 
 
