@@ -78,6 +78,8 @@ def has_won(board, player):
 
 def is_full(board):
     """Returns True if board is full."""
+    if all(cell != '.' for row in board for cell in row):
+        return True
     return False
 
 
