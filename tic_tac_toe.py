@@ -85,7 +85,18 @@ def is_full(board):
 
 def print_board(board):
     """Prints a 3-by-3 board on the screen with borders."""
-    pass
+    for col in range(len(board[0])):
+        print('   ' + str(col + 1), end='')
+    print()
+    for row in range(len(board)):
+        row_str = chr(ord('A') + row) + '  '
+        for col in range(len(board[0])):
+            row_str += board[row][col]
+            if col < len(board[0]) - 1:
+                row_str += ' | '
+        print(row_str)
+        if row < len(board) - 1:
+            print('  ' + '---+---+---')
 
 
 def print_result(winner):
