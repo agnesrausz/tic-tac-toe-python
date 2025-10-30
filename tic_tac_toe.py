@@ -101,7 +101,15 @@ def print_board(board):
 
 def print_result(winner):
     """Congratulates winner or proclaims tie (if winner equals zero)."""
-    pass
+    match winner:
+        case 'X':
+            print("X has won!")
+        case '0':
+            print("0 has won!")
+        case 0:
+            print("It's a tie!")
+        case _:
+            raise ValueError("Invalid winner value")
 
 
 def tictactoe_game(mode='HUMAN-HUMAN'):
