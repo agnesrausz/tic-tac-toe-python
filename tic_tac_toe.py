@@ -13,7 +13,7 @@ def get_move(board, player):
     col_len = len(board[0])
 
     while True:
-        move = input('Enter your move (example: B2): ').strip().lower()
+        move = input(f'Player {player}, enter your move (example: B2): ').strip().lower()
 
         if len(move) != 2:
             print('Invalid coordinate, try again!')
