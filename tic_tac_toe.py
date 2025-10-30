@@ -116,11 +116,21 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
     board = init_board()
 
     # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
-    print_board(board)
-    row, col = get_move(board, 1)
-    mark(board, 1, row, col)
-
     winner = 0
+    player = 'X'
+
+    while True:
+        print_board(board)
+        row, col = get_move(board, player)
+        mark(board, player, row, col)
+        if has_won(board, player):
+            winner = player
+            break
+        if is_full(board):
+            break
+        player  = 'O' if player == 'X' else 'X'
+
+    print_board(board)
     print_result(winner)
 
 
