@@ -104,8 +104,8 @@ def print_result(winner):
     match winner:
         case 'X':
             print("X has won!")
-        case '0':
-            print("0 has won!")
+        case 'O':
+            print("O has won!")
         case 0:
             print("It's a tie!")
         case _:
