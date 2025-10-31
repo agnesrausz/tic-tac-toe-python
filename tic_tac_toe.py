@@ -1,3 +1,5 @@
+import os
+
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
     board = []
@@ -112,6 +114,10 @@ def print_result(winner):
             raise ValueError("Invalid winner value")
 
 
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
 def tictactoe_game(mode='HUMAN-HUMAN'):
     board = init_board()
 
@@ -120,6 +126,7 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
     player = 'X'
 
     while True:
+        clear()
         print_board(board)
         row, col = get_move(board, player)
         mark(board, player, row, col)
