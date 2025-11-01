@@ -1,5 +1,6 @@
 import os
 
+
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
     board = []
@@ -15,7 +16,7 @@ def get_move(board, player):
     col_len = len(board[0])
 
     while True:
-        move = input(f'Player {player}, enter your move (example: B2): ').strip().lower()
+        move = get_user_input(f'Player {player}, enter your move (example: B2): ').strip().lower()
 
         if len(move) != 2:
             print('Invalid coordinate, try again!')
@@ -118,6 +119,17 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
+def get_user_input(prompt):
+    while True:
+        user_input = input(prompt)
+        if (user_input.strip().lower() == 'q' or
+                user_input.strip().lower() == 'quit' or
+                user_input.strip().lower() == 'exit'):
+            print("Exiting the game. Goodbye!")
+            exit()
+        return user_input
+
+
 def tictactoe_game(mode='HUMAN-HUMAN'):
     board = init_board()
 
@@ -135,7 +147,7 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
             break
         if is_full(board):
             break
-        player  = 'O' if player == 'X' else 'X'
+        player = 'O' if player == 'X' else 'X'
 
     print_board(board)
     print_result(winner)
