@@ -154,7 +154,10 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
 
 
 def main_menu():
-    tictactoe_game('HUMAN-HUMAN')
+    while True:
+        print("Welcome to Tic-Tac-Toe!")
+        print("1. Human vs Human")
+        tictactoe_game('HUMAN-HUMAN')
 
 
 if __name__ == '__main__':
