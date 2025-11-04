@@ -128,6 +128,10 @@ def print_result(winner):
             print("O has won!")
         case 0:
             print("It's a tie!")
+        case 'you':
+            print("You have won!")
+        case 'ai':
+            print("AI has won!")
         case _:
             raise ValueError("Invalid winner value")
 
@@ -176,6 +180,11 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
         player = 'O' if player == 'X' else 'X'
 
     print_board(board)
+    if mode in ['HUMAN-AI', 'AI-HUMAN'] and winner != 0:
+        if winner == ai_player:
+            winner = 'ai'
+        else:
+            winner = 'you'
     print_result(winner)
 
 
