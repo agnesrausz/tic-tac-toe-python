@@ -139,9 +139,10 @@ def clear():
 def get_user_input(prompt):
     while True:
         user_input = input(prompt)
-        if (user_input.strip().lower() == 'q' or
-                user_input.strip().lower() == 'quit' or
-                user_input.strip().lower() == 'exit'):
+        normalized_user_input = user_input.strip().lower()
+        if (normalized_user_input == 'q' or
+                normalized_user_input == 'quit' or
+                normalized_user_input == 'exit'):
             print("Exiting the game. Goodbye!")
             exit()
         return user_input
