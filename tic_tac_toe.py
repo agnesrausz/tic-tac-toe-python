@@ -1,5 +1,5 @@
 import os
-
+import random
 
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
@@ -42,8 +42,14 @@ def get_move(board, player):
 
 def get_ai_move(board, player):
     """Returns the coordinates of a valid move for player on board."""
-    row, col = 0, 0
-    return row, col
+    if is_full(board):
+        return None
+    while True:
+        row, col = (random.randint(0, 2), random.randint(0, 2))
+        if board[row][col] != '.':
+            continue
+
+        return row, col
 
 
 def mark(board, player, row, col):
@@ -136,11 +142,18 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
     # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
     winner = 0
     player = 'X'
+    if mode == 'HUMAN-AI':
+        ai_player = 'O'
+    elif mode == 'AI-HUMAN':
+        ai_player = 'X'
 
     while True:
         clear()
         print_board(board)
-        row, col = get_move(board, player)
+        if mode in ['HUMAN-AI', 'AI-HUMAN'] and player == ai_player:
+            row, col = get_ai_move(board, player)
+        else:
+            row, col = get_move(board, player)
         mark(board, player, row, col)
         if has_won(board, player):
             winner = player
@@ -157,7 +170,17 @@ def main_menu():
     while True:
         print("Welcome to Tic-Tac-Toe!")
         print("1. Human vs Human")
-        tictactoe_game('HUMAN-HUMAN')
+        print("2. Human vs AI")
+        print("3. AI vs Human")
+        choice = get_user_input("Select an option (1, 2 or 3): ").strip()
+        if choice == '1':
+            tictactoe_game('HUMAN-HUMAN')
+        elif choice == '2':
+            tictactoe_game('HUMAN-AI')
+        elif choice == '3':
+            tictactoe_game('AI-HUMAN')
+        else:
+            print("Invalid choice, please try again.")
 
 
 if __name__ == '__main__':
