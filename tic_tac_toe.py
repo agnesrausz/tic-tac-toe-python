@@ -44,6 +44,18 @@ def get_ai_move(board, player):
     """Returns the coordinates of a valid move for player on board."""
     if is_full(board):
         return None
+
+    winning_move = None
+    for row in range(3):
+        for col in range(3):
+            if board[row][col] == '.':
+                board[row][col] = player
+                if has_won(board, player):
+                    winning_move = (row, col)
+                board[row][col] = '.'
+    if winning_move:
+        return winning_move
+
     while True:
         row, col = (random.randint(0, 2), random.randint(0, 2))
         if board[row][col] != '.':
@@ -146,6 +158,8 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
         ai_player = 'O'
     elif mode == 'AI-HUMAN':
         ai_player = 'X'
+    else:
+        ai_player = None
 
     while True:
         clear()
