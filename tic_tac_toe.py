@@ -56,6 +56,18 @@ def get_ai_move(board, player):
     if winning_move:
         return winning_move
 
+    counter_move = None
+    for row in range(3):
+        for col in range(3):
+            if board[row][col] == '.':
+                enemy = 'O' if player == 'X' else 'X'
+                board[row][col] = enemy
+                if has_won(board, enemy):
+                    counter_move = (row, col)
+                board[row][col] = '.'
+    if counter_move:
+        return counter_move
+
     while True:
         row, col = (random.randint(0, 2), random.randint(0, 2))
         if board[row][col] != '.':
