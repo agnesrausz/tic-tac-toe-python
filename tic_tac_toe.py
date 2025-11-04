@@ -104,6 +104,7 @@ def is_full(board):
 
 def print_board(board):
     """Prints a 3-by-3 board on the screen with borders."""
+    clear()
     for col in range(len(board[0])):
         print('   ' + str(col + 1), end='')
     print()
@@ -160,7 +161,6 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
         ai_player = None
 
     while True:
-        clear()
         print_board(board)
         if mode in ['HUMAN-AI', 'AI-HUMAN'] and player == ai_player:
             row, col = get_ai_move(board, player)
