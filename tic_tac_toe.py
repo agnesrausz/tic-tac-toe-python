@@ -68,12 +68,14 @@ def get_ai_move(board, player):
     if counter_move:
         return counter_move
 
-    while True:
-        row, col = (random.randint(0, 2), random.randint(0, 2))
-        if board[row][col] != '.':
-            continue
-
-        return row, col
+    free_coordinates = []
+    for row in range(3):
+        for col in range(3):
+            if board[row][col] == '.':
+                free_coordinates.append((row, col))
+    if free_coordinates:
+        return random.choice(free_coordinates)
+    return None
 
 
 def mark(board, player, row, col):
@@ -156,9 +158,7 @@ def get_user_input(prompt):
     while True:
         user_input = input(prompt)
         normalized_user_input = user_input.strip().lower()
-        if (normalized_user_input == 'q' or
-                normalized_user_input == 'quit' or
-                normalized_user_input == 'exit'):
+        if normalized_user_input in ('q', 'quit', 'exit'):
             print("Exiting the game. Goodbye!")
             exit()
         return user_input
