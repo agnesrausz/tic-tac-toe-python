@@ -1,5 +1,7 @@
 import os
 import random
+import time
+
 
 def init_board():
     """Returns an empty 3-by-3 board (with .)."""
@@ -42,6 +44,7 @@ def get_move(board, player):
 
 def get_ai_move(board, player):
     """Returns the coordinates of a valid move for player on board."""
+    time.sleep(1)
     if is_full(board):
         return None
 
@@ -181,6 +184,8 @@ def tictactoe_game(mode='HUMAN-HUMAN'):
         print_board(board)
         if mode in ['HUMAN-AI', 'AI-HUMAN'] and player == ai_player:
             row, col = get_ai_move(board, player)
+        elif mode == 'AI-AI':
+            row, col = get_ai_move(board, player)
         else:
             row, col = get_move(board, player)
         mark(board, player, row, col)
@@ -206,13 +211,16 @@ def main_menu():
         print("1. Human vs Human")
         print("2. Human vs AI")
         print("3. AI vs Human")
-        choice = get_user_input("Select an option (1, 2 or 3): ").strip()
+        print("4. AI-AI")
+        choice = get_user_input("Select an option: ").strip()
         if choice == '1':
             tictactoe_game('HUMAN-HUMAN')
         elif choice == '2':
             tictactoe_game('HUMAN-AI')
         elif choice == '3':
             tictactoe_game('AI-HUMAN')
+        elif choice == '4':
+            tictactoe_game('AI-AI')
         else:
             print("Invalid choice, please try again.")
 
